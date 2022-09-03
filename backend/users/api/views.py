@@ -7,7 +7,8 @@ from django.contrib.auth import get_user_model
 import jwt
 import datetime
 from .serializers import (
-    UserSerializer
+    UserSerializer,
+    ChangePasswordSerializer
 )
 from .decorators import (
   unauthenticated_user,
@@ -88,3 +89,34 @@ def UserAccountView(request, *args, **kwargs):
     serializer = UserSerializer(user)
 
     return Response(serializer.data, status=200)
+
+@api_view(['POST'])
+@login_required
+def UserChangePasswordView(request, *args, **kwargs):
+    auth = request.headers['Authorization']
+    token = auth.replace("Bearer ", "")
+    payload = jwt.decode(token, 'secret', algorithms=['HS256'])
+    data = request.data
+    user = User.objects.filter(id=payload['id']).first()
+    context = {'user' : user}
+    serializer = ChangePasswordSerializer(data=data, context=context)
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    payloadnew = {
+        'id': user.id,
+        'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
+        'iat': datetime.datetime.utcnow()
+    }
+    newtoken = jwt.encode(payloadnew, 'secret', algorithm='HS256')
+
+    response = Response()
+
+
+    response.status_code = 200
+
+    response.set_cookie(key="jwt", value=newtoken, httponly=True)
+    response.data = {
+        "jwt" : newtoken
+    }
+
+    return response
