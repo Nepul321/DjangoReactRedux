@@ -36,22 +36,22 @@ def UserLoginView(request, *args, **kwargs):
     password = data['password']
 
     if not email:
-        return Response({"message" : "Email not entered"}, status=204)
+        return Response({"detail" : "Email not entered"}, status=204)
 
     if not password:
-        return Response({"message" : "Password not given"}, status=204)
+        return Response({"detail" : "Password not given"}, status=204)
 
     qs = User.objects.filter(email=email)
     if not qs:
-        return Response({"message" : "User not found"}, status=404)
+        return Response({"detail" : "User not found"}, status=404)
 
     user = qs.first()
 
     if user.is_active == False:
-        return Response({"message" : "User is not active"})
+        return Response({"detail" : "User is not active"}, status=401)
 
     if not user.check_password(password):
-        return Response({"message" : "Wrong password"}, status=401)
+        return Response({"detail" : "Wrong password"}, status=401)
 
     payload = {
         'id': user.id,
