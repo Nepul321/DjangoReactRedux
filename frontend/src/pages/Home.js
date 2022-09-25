@@ -35,7 +35,10 @@ function Home() {
         <p>ID : {userid}</p>
         <p>First Name : {userfirstName}</p>
         <p>Last Name : {userlastName}</p>
+        <div className="btn-group">
+        <a href="/account" className="btn btn-outline-dark">Your Account</a>
         <button className="btn btn-secondary" onClick={SignOut}>Sign Out</button>
+        </div>
         </div>
     </div>
  )
