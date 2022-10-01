@@ -93,6 +93,9 @@ function Account() {
                 <div className='form-group mb-3'>
                 <input type={'text'} className={'form-control'} placeholder={"Last Name"} ref={last_name_ref} defaultValue={last_name} required={true}/>
                 </div>
+                <div className='mb-3'>
+                  <p>Click <a href='/password'>here</a> to change your password.</p>
+                </div>
                    <button className='btn btn-outline-primary my-2'>Save</button>
              </form>
              <a href='/' className='btn btn-secondary my-5'>Back to Home</a>

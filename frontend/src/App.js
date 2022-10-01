@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import { useDispatch } from "react-redux";
 import { setActiveUser } from "./features/userSlice";
 import Account from "./pages/Account";
+import ChangePassword from "./pages/ChangePassword";
 
 function App() {
   const dispatch = useDispatch();
@@ -52,6 +53,7 @@ function App() {
         <Route path="/" exact element={<Home />}></Route>
         <Route path="/login" exact element={<Login />}></Route>
         <Route path="/account" exact element={<Account />}></Route>
+        <Route path="/password" exact element={<ChangePassword />}></Route>
       </Routes>
     </div>
   );
